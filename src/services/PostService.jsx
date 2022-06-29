@@ -9,7 +9,7 @@ class PostService {
 
   async getAll() {
     try {
-      const { data } = this.client.get('/posts');
+      const { data } = await this.client.get('/posts');
       return data;
     } catch (error) {
       console.log(error);
@@ -19,7 +19,17 @@ class PostService {
 
   async getById(postId) {
     try {
-      const { data } = this.client.get(`/posts/${postId}`);
+      const { data } = await this.client.get(`/posts/${postId}`);
+      return data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+
+  async add(newPost) {
+    try {
+      const { data } = await this.client.post(`/posts`, newPost);
       return data;
     } catch (error) {
       console.log(error);

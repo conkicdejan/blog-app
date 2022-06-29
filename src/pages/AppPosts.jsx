@@ -8,7 +8,8 @@ function AppPosts() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = PostService.getAll();
+      const data  = await PostService.getAll();
+      console.log(data)
       if (data) {
         setPosts(data);
       }
@@ -19,7 +20,7 @@ function AppPosts() {
   return (
     <div>
       <h4>Posts</h4>
-      {posts.length > 0 ? posts.map((post) => <Post post={post} />) : 'no posts'}
+      {posts.length > 0 ? posts.map((post) => <Post key={post.id} post={post} />) : 'no posts'}
     </div>
   );
 }
