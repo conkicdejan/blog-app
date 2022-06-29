@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function Post({post}) {
+function Post({ post }) {
+  const { id, title, text } = post;
   return (
-    <div className='d-flex flex-column'>
-      <span>Id: {post.id}</span>
-      <span>Title: {post.title}</span>
-      <span>Content: {post.text}</span>
-      <Link to={`/posts/${post.id}`}>View post</Link>
+    <div className="d-flex flex-column">
+      <span>Id: {id}</span>
+      <span>Title: {title}</span>
+      <span>Content: {text}</span>
+      <Link to={`/posts/${id}`}>View post</Link>
       <hr />
     </div>
   );
