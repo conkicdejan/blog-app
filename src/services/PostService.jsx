@@ -36,6 +36,26 @@ class PostService {
       return null;
     }
   }
+
+  async edit(postId, newData) {
+    try {
+      const { data } = await this.client.put(`/posts/${postId}`, newData);
+      return data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+
+  async delete(postId) {
+    try {
+      const { data } = await this.client.delete(`/posts/${postId}`);
+      return data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
 }
 
 export default new PostService();

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PostService from '../services/PostService';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function AddPost() {
   const navigate = useNavigate();
@@ -18,12 +18,36 @@ function AddPost() {
         navigate('/posts');
       }
     };
-    addPost();
+    const editPost = async () => {
+      const data = PostService.edit(id, form);
+      if (data) {
+        navigate('/posts');
+      }
+    };
+    if (id) {
+      editPost();
+    } else {
+      addPost();
+    }
   };
 
   const handleReset = () => {
     setForm(initialFormValues);
   };
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await PostService.getById(id);
+      if (data) {
+        setForm(data);
+      }
+    };
+    if (id) {
+      fetchData();
+    }
+  }, [id]);
 
   return (
     <div>
@@ -31,7 +55,7 @@ function AddPost() {
         <label htmlFor="title">Title</label>
         <input
           required
-          minLength='2'
+          minLength="2"
           name="title"
           id="title"
           type="text"
@@ -42,7 +66,7 @@ function AddPost() {
         <label htmlFor="text">Content</label>
         <input
           required
-          maxLength='300'
+          maxLength="300"
           name="text"
           id="text"
           type="text"
@@ -50,7 +74,7 @@ function AddPost() {
           onChange={({ target }) => setForm({ ...form, [target.name]: target.value })}
         />
 
-        <button>Add post</button>
+        <button>{id ? 'Edit post' : 'Add post'}</button>
         <button type="button" onClick={handleReset}>
           reset form
         </button>
@@ -60,5 +84,3 @@ function AddPost() {
 }
 
 export default AddPost;
-
-
