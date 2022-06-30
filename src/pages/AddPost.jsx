@@ -10,24 +10,16 @@ function AddPost() {
   };
   const [form, setForm] = useState(initialFormValues);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const addPost = async () => {
-      const data = PostService.add(form);
-      if (data) {
-        navigate('/posts');
-      }
-    };
-    const editPost = async () => {
-      const data = PostService.edit(id, form);
-      if (data) {
-        navigate('/posts');
-      }
-    };
+    let data = null
     if (id) {
-      editPost();
+      data = await PostService.edit(id, form);
     } else {
-      addPost();
+      data = await PostService.add(form);
+    }
+    if(data){
+      navigate('/posts');
     }
   };
 
