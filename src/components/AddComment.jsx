@@ -8,6 +8,7 @@ function AddComment({ addCommentCallback }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     addCommentCallback(form);
+    setForm({ text: '' });
   };
 
   return (

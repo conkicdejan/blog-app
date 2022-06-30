@@ -23,7 +23,7 @@ function SinglePost() {
   const handleAddComment = async (data) => {
     const newComment = await PostService.addComment(data, id);
     if (newComment) {
-      setPost({ ...post, [comments]: comments.push(newComment) });
+      setPost({ ...post, comments: [...comments, newComment] });
     }
   };
   const formatedDate = useFormattedDate(post.createdAt);
