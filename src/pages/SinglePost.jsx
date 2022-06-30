@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import useFormattedDate from '../hooks/useFormattedDate';
 import PostService from '../services/PostService';
 import AddComment from './../components/AddComment';
 
@@ -25,6 +26,7 @@ function SinglePost() {
       setPost({ ...post, [comments]: comments.push(newComment) });
     }
   };
+  const formatedDate = useFormattedDate(post.createdAt);
 
   const { title, text, comments } = post;
   return (
@@ -38,7 +40,7 @@ function SinglePost() {
         {comments &&
           comments.map((comment) => (
             <div key={comment.id}>
-              <span>{new Date(comment.createdAt).toLocaleDateString()}</span>
+              <span>{formatedDate}</span>
               <p>{comment.text}</p>
               <hr />
             </div>
