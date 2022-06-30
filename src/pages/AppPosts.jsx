@@ -5,15 +5,16 @@ import Post from '../components/Post';
 import { useNavigate } from 'react-router-dom';
 
 function AppPosts() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState({});
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       const data = await PostService.getAll();
-      console.log(data);
-      if (data) {
+      await data.map(async (post, index) => {
+        const { count } = await PostService.getCommentsCount(post.id);
+        data[index] = { ...data[index], commentsCount: count };
         setPosts(data);
-      }
+      });
     };
     fetchData();
   }, []);
@@ -22,13 +23,10 @@ function AppPosts() {
     navigate(`/edit/${id}`);
   };
 
-  const handleDelete = (postId) => {
-    const deletePost = async () => {
-      await PostService.delete(postId);
-      const newPosts = posts.filter(({ id }) => id !== postId);
-      setPosts(newPosts);
-    };
-    deletePost();
+  const handleDelete = async (postId) => {
+    await PostService.delete(postId);
+    const newPosts = posts.filter(({ id }) => id !== postId);
+    setPosts(newPosts);
   };
 
   return (

@@ -19,7 +19,7 @@ class PostService {
 
   async getById(postId) {
     try {
-      const { data } = await this.client.get(`/posts/${postId}`);
+      const { data } = await this.client.get(`/posts/${postId}?filter={"include":["comments"]}`);
       return data;
     } catch (error) {
       console.log(error);
@@ -50,6 +50,26 @@ class PostService {
   async delete(postId) {
     try {
       const { data } = await this.client.delete(`/posts/${postId}`);
+      return data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+
+  async addComment(comment, postId) {
+    try {
+      const { data } = await this.client.post(`/posts/${postId}/comments`, comment);
+      return data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+
+  async getCommentsCount(postId) {
+    try {
+      const { data } = await this.client.get(`/posts/${postId}/comments/count`);
       return data;
     } catch (error) {
       console.log(error);
