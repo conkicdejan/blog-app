@@ -10,11 +10,8 @@ function AppPosts() {
   useEffect(() => {
     const fetchData = async () => {
       const data = await PostService.getAll();
-      await data.map(async (post, index) => {
-        const { count } = await PostService.getCommentsCount(post.id);
-        data[index] = { ...data[index], commentsCount: count };
-        setPosts(data);
-      });
+      setPosts(data);
+      console.log(data);
     };
     fetchData();
   }, []);
